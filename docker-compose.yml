@@ -1,0 +1,28 @@
+web:
+  image: sites/docker-test
+  ports:
+    - "8080:80"
+  volumes:
+    - ./src:/var/www
+    - ./docker/vhost.conf:/etc/nginx/sites-enabled/vhost.conf
+  links:
+    - php
+
+php:
+  image: nmcteam/php56
+  expose:
+    - 9000:9000
+  volumes:
+    - ./docker/php-fpm.conf:/etc/php5/fpm/php-fpm.conf
+    - ./src:/var/www
+  links:
+    - db
+
+db:
+  image: sameersbn/mysql
+  volumes:
+   - /var/lib/mysql
+  environment:
+   - DB_NAME=test-db
+   - DB_USER=root
+   - DB_PASS=toor
