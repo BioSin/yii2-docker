@@ -1,6 +1,8 @@
 FROM phusion/baseimage
 MAINTAINER ValentinK <rlng-krsk@yandex.ru>
 
+WORKDIR /var/www/
+
 CMD ["/sbin/my_init"]
 
 RUN apt-get update && apt-get install -y python-software-properties
@@ -12,7 +14,7 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log
 RUN ln -sf /dev/stderr /var/log/nginx/error.log
 
 RUN mkdir -p /etc/service/nginx
-ADD start.sh /etc/service/nginx/run
+ADD nginx/start.sh /etc/service/nginx/run
 RUN chmod +x /etc/service/nginx/run
 
 EXPOSE 80
