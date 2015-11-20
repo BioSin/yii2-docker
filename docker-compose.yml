@@ -1,26 +1,36 @@
 web:
   build: ./
+  working_dir: /var/www/public
   ports:
     - "8080:80"
   volumes:
-    - ./:/var/www
+    - ./:/var/www/public
     - ./nginx/vhost.conf:/etc/nginx/sites-enabled/vhost.conf
   links:
     - php
 
 php:
   image: nmcteam/php56
+  working_dir: /var/www/public
   expose:
-    - 9000:9000
+    - "9000"
   volumes:
     - ./nginx/php-fpm.conf:/etc/php5/fpm/php-fpm.conf
-    - ./:/var/www
+    - ./:/var/www/public
   links:
     - db
 
 db:
   image: mysql
+  # Use to connect remotely to your mysql using some software on host machine
+  # ports:
+    # - "3306:3306"
+  volumes:
+    - ./nginx/data/mysql:/var/lib/mysql
+    - ./nginx/data/db.sh:/db.sh
+  command: "/db.sh"
   environment:
-   - MYSQL_DATABASE=bookyou
-   - MYSQL_USER=root
-   - MYSQL_PASSWORD=toor
+    MYSQL_DATABASE: DB_NAME
+    MYSQL_USER: USER_NAME
+    MYSQL_PASSWORD: USER_PASS
+    MYSQL_ROOT_PASSWORD: ROOT_USER_PASS
