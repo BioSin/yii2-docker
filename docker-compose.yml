@@ -27,8 +27,10 @@ db:
     # - "3306:3306"
   volumes:
     - ./nginx/data/mysql:/var/lib/mysql
-    - ./nginx/data/db.sh:/db.sh
-  command: "/db.sh"
+  # Use on mac os only to avoid
+    # - ./nginx/db.sh:/db.sh
+  # https://github.com/docker-library/mysql/issues/99
+  # command: "/db.sh"
   environment:
     MYSQL_DATABASE: DB_NAME
     MYSQL_USER: USER_NAME
