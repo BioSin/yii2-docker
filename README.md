@@ -1,3 +1,5 @@
+Place the code to your project root path
+
 At your DSN at main-local.php use something like that:
 'mysql:host=dbContainer;dbname=testdb'
 , where:
